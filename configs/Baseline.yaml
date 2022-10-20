@@ -1,0 +1,33 @@
+experiment:
+  name: ResNet50                # The name of experiment.
+  log_dir: results/base_res50   # Log directory of the experiment.
+  seed: 42                      # Fix the random seed. `None` for random.
+#  debug: False                  # If `True`, ignore the error of log folder exist.
+#  resume: results/base_res50/ResNet50/checkpoint_epoch_12.pth   # Resume from a checkpoint
+dataset:
+  name: cub
+  root_dir: data/bird/CUB_200_2011/images
+  meta_dir: metadata/cub
+  batch_size: 24
+  num_workers: 4
+  transformer:
+    image_size: 224
+    resize_size: 256
+model:
+  name: ResNet50
+  num_classes: 200
+train:
+  cuda: [0]                 # The list of gpu to use. `[]` for cpu only.
+  epoch: 30
+  save_frequence: 30        # The frequency of saving model.
+  optimizer:
+    name: Adam
+    lr: 0.0001
+    momentum: 0.9
+    weight_decay: 0.00002
+  scheduler:
+    name: CosineAnnealingLR
+    T_max: 30
+    eta_min: 0.00001
+  criterion:
+    name: CrossEntropyLoss
